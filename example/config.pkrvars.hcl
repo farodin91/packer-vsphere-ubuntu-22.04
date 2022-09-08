@@ -1,0 +1,5 @@
+vcenter_server      = "vcsa.lab.hyperact.ca"
+vsphere_datacenter  = "lab"
+vsphere_cluster     = "labcl"
+vsphere_datastore   = "ssd"
+vsphere_network     = "mgmt"

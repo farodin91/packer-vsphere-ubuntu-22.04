@@ -1,0 +1,44 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  keyboard:
+    layout: en
+    variant: us
+  early-commands:
+    # Stop packer from failing out on SSH attempts to the openssh-server daemon started by subiquity
+    - systemctl stop ssh
+    # Temporarily remove VM tools to stop packer from failing out by using the wrong IP in case it
+    # changes during the install.
+    - apt remove -y open-vm-tools
+  ssh:
+    install-server: true
+    allow-pw: true
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  network:
+    network:
+      version: 2
+      ethernets:
+        ens192:
+          dhcp4: true
+          dhcp-identifier: mac
+  user-data:
+    package_upgrade: true
+    timezone: America/Toronto
+    users:
+      - name: ansible
+        groups: [adm, cdrom, dip, plugdev, lxd, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-ed25519 PASTEYOURKEYHERE gitlab-runner@YOURSYSTEM
+    packages:
+      - open-vm-tools
+    runcmd:
+      - systemctl enable open-vm-tools
+      - systemctl start open-vm-tools
