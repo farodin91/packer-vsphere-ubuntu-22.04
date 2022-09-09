@@ -75,3 +75,8 @@ variable "vm_disk_size" {
   type        = number
   description = "The size for the virtual disk in MB. (e.g. '40960')"
 }
+
+variable "content_library" {
+  type        = string
+  description = "The name of the content library to put the VM template into.  Must already exist."
+}

@@ -68,7 +68,12 @@ source "vsphere-iso" "ubuntu" {
     ssh_timeout           = "20m"
 
     # Create as template
-    convert_to_template   = "true"
+    # convert_to_template   = "true"
+
+    # Deploy to content library
+    content_library_destination {
+      library = "${var.content_library}"
+    }
 }
 
 build {
